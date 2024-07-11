@@ -6,19 +6,21 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "@/components/header/input/Input";
 import GoogleLogo from "@/../../public/images/social/google-logo.png";
 import KakaoLogo from "@/../../public/images/social/kakaotalk-logo.png";
-import { LoginValidation } from "@/lib/Validation";
+import { SignupValidation } from "@/lib/Validation";
 
 interface Inputs {
   email: string;
+  name: string;
   password: string;
+  confirmPassword: string;
 }
 
-export default function Login() {
+export default function Singup() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<Inputs>({ resolver: yupResolver(LoginValidation) });
+  } = useForm<Inputs>({ resolver: yupResolver(SignupValidation) });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
@@ -38,6 +40,14 @@ export default function Login() {
           register={register}
           message={errors.email?.message}
         />
+        <label>닉네임</label>
+        <Input
+          name="name"
+          type="name"
+          placeholder="닉네임을 입력해주세요"
+          register={register}
+          message={errors.name?.message}
+        />
         <label>비밀번호</label>
         <Input
           name="password"
@@ -45,6 +55,14 @@ export default function Login() {
           placeholder="비밀번호를 입력해주세요"
           register={register}
           message={errors.password?.message}
+        />
+        <label>비밀번호 확인</label>
+        <Input
+          name="confirmPassword"
+          type="confirmPassword"
+          placeholder="비밀번호를 입력해주세요"
+          register={register}
+          message={errors.confirmPassword?.message}
         />
         <button
           type="submit"
@@ -67,8 +85,8 @@ export default function Login() {
       </div>
       <div className="flex">
         <p>판다마켓이 처음이신가요?</p>
-        <Link href="/signup">
-          <p className="text-primary">회원가입</p>
+        <Link href="/login">
+          <p className="text-primary">로그인</p>
         </Link>
       </div>
     </div>

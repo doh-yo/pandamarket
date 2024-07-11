@@ -1,12 +1,26 @@
 import type { Config } from "tailwindcss";
 import type { PluginAPI } from "tailwindcss/types/config";
 
+const createPxRange = (max: number) => {
+  const result: { [key: string]: string } = {};
+  for (let i = 0; i <= max; i++) {
+    result[`${i}px`] = `${i}px`;
+  }
+  return result;
+};
+
+const px0_10 = createPxRange(10);
+const px0_100 = createPxRange(100);
+const px0_200 = createPxRange(200);
+const px0_500 = createPxRange(500);
+
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+
   theme: {
     extend: {
       screens: {
@@ -24,8 +38,18 @@ const config: Config = {
         gray200: "#e5e7eb",
         gray100: "#f3f4f6",
         gray50: "#f9fafb",
+        gray40: "#a4a1aa",
+        gray30: "#cbc9cf",
         gray10: "#dfdfdf",
+        red40: "#FF4040",
+        blue10: "#E6F2FF",
       },
+      borderWidth: px0_10,
+      fontSize: px0_100,
+      spacing: px0_200,
+      borderRadius: px0_100,
+      width: px0_500,
+      height: px0_500,
     },
   },
   plugins: [
