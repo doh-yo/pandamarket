@@ -32,3 +32,8 @@ export const SignupValidation = yup.object().shape({
     .oneOf([yup.ref("password")], "비밀번호가 일치하지 않습니다")
     .required("비밀번호를 다시 입력해 주세요"),
 });
+
+export const AddBoardValidation = yup.object().shape({
+  title: yup.string().required("제목을 입력해주세요"),
+  content: yup.string().required("내용을 입력해주세요"),
+});

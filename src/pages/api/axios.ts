@@ -43,4 +43,35 @@ apiClient.interceptors.response.use(
   }
 );
 
+// 이미지 업로드 API 함수
+export const uploadImage = async (file: File) => {
+  const formData = new FormData();
+  formData.append("image", file);
+
+  try {
+    const response = await apiClient.post("/images/upload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data.url;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 게시글 등록 함수
+export const createArticle = async (data: {
+  image?: string;
+  content: string;
+  title: string;
+}) => {
+  try {
+    const response = await apiClient.post("/articles", data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default apiClient;

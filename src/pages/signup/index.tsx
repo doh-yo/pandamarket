@@ -3,7 +3,7 @@ import Link from "next/link";
 import Logo from "@/../../public/images/logo/panda-market-logo.png";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Input from "@/components/header/input/Input";
+import Input from "@/components/input/Input";
 import GoogleLogo from "@/../../public/images/social/google-logo.png";
 import KakaoLogo from "@/../../public/images/social/kakaotalk-logo.png";
 import { SignupValidation } from "@/lib/utils/Validation";

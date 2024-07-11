@@ -60,6 +60,11 @@ const config: Config = {
           justifyContent: "center",
           alignItems: "center",
         },
+        ".container-base": {
+          display: "flex",
+          "flex-direction": "column",
+          padding: "16px",
+        },
       });
     },
   ],
