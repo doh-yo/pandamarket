@@ -7,27 +7,27 @@ import Input from "@/components/header/input/Input";
 import GoogleLogo from "@/../../public/images/social/google-logo.png";
 import KakaoLogo from "@/../../public/images/social/kakaotalk-logo.png";
 import { SignupValidation } from "@/lib/utils/Validation";
-import apiClient from "@/lib/axios";
+import apiClient from "@/pages/api/axios";
 import { useRouter } from "next/router";
 
-interface Inputs {
+interface SignupFormInputs {
   email: string;
   nickname: string;
   password: string;
   passwordConfirmation: string;
 }
 
-export default function Singup() {
+export default function Signup() {
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<Inputs>({ resolver: yupResolver(SignupValidation) });
+    formState: { errors, isSubmitting, isValid },
+  } = useForm<SignupFormInputs>({ resolver: yupResolver(SignupValidation) });
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit: SubmitHandler<SignupFormInputs> = async (data) => {
     try {
-      await apiClient.post("/signup", data);
+      await apiClient.post("/auth/signup", data);
       router.push("/login");
     } catch (error) {
       console.error("회원가입 오류", error);
@@ -51,7 +51,7 @@ export default function Singup() {
         <label>닉네임</label>
         <Input
           name="nickname"
-          type="nickname"
+          type="text" // 타입 수정
           placeholder="닉네임을 입력해주세요"
           register={register}
           message={errors.nickname?.message}
@@ -68,16 +68,18 @@ export default function Singup() {
         <Input
           name="passwordConfirmation"
           type="password"
-          placeholder="비밀번호를 입력해주세요"
+          placeholder="비밀번호를 다시 입력해주세요"
           register={register}
           message={errors.passwordConfirmation?.message}
         />
         <button
           type="submit"
-          disabled={isSubmitting}
-          className="w-full rounded-40px bg-primary text-white px-124px py-16px"
+          disabled={!isValid || isSubmitting}
+          className={`w-full rounded-40px text-white px-124px py-16px ${
+            !isValid || isSubmitting ? "bg-gray400" : "bg-primary"
+          }`}
         >
-          로그인
+          회원가입
         </button>
       </form>
       <div className="flex items-center justify-between rounded-8px bg-blue10 h-74px mt-24px mb-24px">

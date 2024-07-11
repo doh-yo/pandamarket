@@ -7,21 +7,31 @@ import Input from "@/components/header/input/Input";
 import GoogleLogo from "@/../../public/images/social/google-logo.png";
 import KakaoLogo from "@/../../public/images/social/kakaotalk-logo.png";
 import { LoginValidation } from "@/lib/utils/Validation";
+import { useRouter } from "next/router";
+import apiClient from "../api/axios";
 
-interface Inputs {
+interface SigninFormInputs {
   email: string;
   password: string;
 }
 
 export default function Login() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<Inputs>({ resolver: yupResolver(LoginValidation) });
+    formState: { errors, isSubmitting, isValid },
+  } = useForm<SigninFormInputs>({ resolver: yupResolver(LoginValidation) });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<SigninFormInputs> = async (data) => {
+    try {
+      const response = await apiClient.post("/auth/signIn", data);
+      const { accessToken } = response.data;
+      localStorage.setItem("accessToken", accessToken);
+      router.push("/");
+    } catch (error) {
+      console.error("로그인 오류", error);
+    }
   };
 
   return (
@@ -48,8 +58,10 @@ export default function Login() {
         />
         <button
           type="submit"
-          disabled={isSubmitting}
-          className="w-full rounded-40px bg-primary text-white px-124px py-16px"
+          disabled={!isValid || isSubmitting}
+          className={`w-full rounded-40px text-white px-124px py-16px ${
+            !isValid || isSubmitting ? "bg-gray400" : "bg-primary"
+          }`}
         >
           로그인
         </button>
