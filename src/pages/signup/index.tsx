@@ -67,7 +67,7 @@ export default function Singup() {
         <label>비밀번호 확인</label>
         <Input
           name="passwordConfirmation"
-          type="passwordConfirmation"
+          type="password"
           placeholder="비밀번호를 입력해주세요"
           register={register}
           message={errors.passwordConfirmation?.message}
