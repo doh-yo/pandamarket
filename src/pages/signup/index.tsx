@@ -6,24 +6,32 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "@/components/header/input/Input";
 import GoogleLogo from "@/../../public/images/social/google-logo.png";
 import KakaoLogo from "@/../../public/images/social/kakaotalk-logo.png";
-import { SignupValidation } from "@/lib/Validation";
+import { SignupValidation } from "@/lib/utils/Validation";
+import apiClient from "@/lib/axios";
+import { useRouter } from "next/router";
 
 interface Inputs {
   email: string;
-  name: string;
+  nickname: string;
   password: string;
-  confirmPassword: string;
+  passwordConfirmation: string;
 }
 
 export default function Singup() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>({ resolver: yupResolver(SignupValidation) });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      await apiClient.post("/signup", data);
+      router.push("/login");
+    } catch (error) {
+      console.error("회원가입 오류", error);
+    }
   };
 
   return (
@@ -42,11 +50,11 @@ export default function Singup() {
         />
         <label>닉네임</label>
         <Input
-          name="name"
-          type="name"
+          name="nickname"
+          type="nickname"
           placeholder="닉네임을 입력해주세요"
           register={register}
-          message={errors.name?.message}
+          message={errors.nickname?.message}
         />
         <label>비밀번호</label>
         <Input
@@ -58,11 +66,11 @@ export default function Singup() {
         />
         <label>비밀번호 확인</label>
         <Input
-          name="confirmPassword"
-          type="confirmPassword"
+          name="passwordConfirmation"
+          type="passwordConfirmation"
           placeholder="비밀번호를 입력해주세요"
           register={register}
-          message={errors.confirmPassword?.message}
+          message={errors.passwordConfirmation?.message}
         />
         <button
           type="submit"

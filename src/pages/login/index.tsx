@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "@/components/header/input/Input";
 import GoogleLogo from "@/../../public/images/social/google-logo.png";
 import KakaoLogo from "@/../../public/images/social/kakaotalk-logo.png";
-import { LoginValidation } from "@/lib/Validation";
+import { LoginValidation } from "@/lib/utils/Validation";
 
 interface Inputs {
   email: string;

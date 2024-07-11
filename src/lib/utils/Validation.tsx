@@ -15,7 +15,7 @@ export const LoginValidation = yup.object().shape({
 });
 
 export const SignupValidation = yup.object().shape({
-  name: yup.string().required("닉네임을 입력해주세요"),
+  nickname: yup.string().required("닉네임을 입력해주세요"),
   email: yup
     .string()
     .matches(
@@ -27,7 +27,7 @@ export const SignupValidation = yup.object().shape({
     .string()
     .min(8, "비밀번호를 8자 이상 입력해주세요")
     .required("비밀번호를 입력해주세요"),
-  confirmPassword: yup
+  passwordConfirmation: yup
     .string()
     .oneOf([yup.ref("password")], "비밀번호가 일치하지 않습니다")
     .required("비밀번호를 다시 입력해 주세요"),
