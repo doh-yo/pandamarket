@@ -5,6 +5,7 @@ import ImageUpload from "@/components/AddBoard/ImageUpload";
 import Input from "@/components/input/Input";
 import { AddBoardValidation } from "@/lib/utils/Validation";
 import { createArticle, uploadImage } from "@/pages/api/axios";
+import { useRouter } from "next/router";
 
 interface AddBoardFormInputs {
   image?: string;
@@ -13,6 +14,7 @@ interface AddBoardFormInputs {
 }
 
 export default function AddBoardPage() {
+  const router = useRouter();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const {
     register,
@@ -37,8 +39,8 @@ export default function AddBoardPage() {
     try {
       await createArticle(data);
       alert("게시글이 성공적으로 등록되었습니다.");
+      router.push("/board");
     } catch (error) {
-      console.error("게시글 등록 실패:", error);
       alert("게시글 등록에 실패했습니다.");
     }
   };
